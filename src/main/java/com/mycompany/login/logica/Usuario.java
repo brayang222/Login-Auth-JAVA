@@ -2,26 +2,32 @@ package com.mycompany.login.logica;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+/*import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;*/
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Usuario implements Serializable {
     
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    //@GeneratedValue(strategy=GenerationType.SEQUENCE)
     private int id;
     private String nombreUsuario;
     private String contra;
-
+    @ManyToOne
+    @JoinColumn(name="fk_rol") //No se puede llamar igual a la pk
+    private Rol unRol;
+    
     public Usuario() {
     }
 
-    public Usuario(int id, String nombreUsuario, String contra) {
+    public Usuario(int id, String nombreUsuario, String contra, Rol unRol) {
         this.id = id;
         this.nombreUsuario = nombreUsuario;
         this.contra = contra;
+        this.unRol = unRol;
     }
 
     public int getId() {
@@ -47,6 +53,13 @@ public class Usuario implements Serializable {
     public void setContra(String contra) {
         this.contra = contra;
     }
-    
-    
+
+    public Rol getUnRol() {
+        return unRol;
+    }
+
+    public void setUnRol(Rol unRol) {
+        this.unRol = unRol;
+    }
+
 }

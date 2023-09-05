@@ -1,12 +1,13 @@
 package com.mycompany.login.igu;
 
 import com.mycompany.login.logica.Controladora;
+import com.mycompany.login.logica.Usuario;
 
-public class Principal extends javax.swing.JFrame {
+public class LoginInicial extends javax.swing.JFrame {
 
     Controladora control = null;
     
-    public Principal() {
+    public LoginInicial() {
         initComponents();
         control = new Controladora();
     }
@@ -195,9 +196,27 @@ public class Principal extends javax.swing.JFrame {
        
         String usuario = txtUsuario.getText();
         String contra = txtContra.getText();
-        String mensaje = control.validarUsuario(usuario, contra);
+        Usuario user = control.validarUsuario(usuario, contra);
         
-        txtPanelMensaje.setText(mensaje);
+        if(user!=null){
+            String rol = user.getUnRol().getNombreRol();
+            
+            if(rol.equals("admin")){
+                PrincipalAdmin pantallaAdmin = new PrincipalAdmin(control, user);
+                pantallaAdmin.setVisible(true);
+                pantallaAdmin.setLocationRelativeTo(null);
+                this.dispose();
+            }
+            if(rol.equals("user")){
+                PrincipalUser pantallaUser = new PrincipalUser(control, user);
+                pantallaUser.setVisible(true);
+                pantallaUser.setLocationRelativeTo(null);
+                this.dispose();
+            }
+        } else {
+            txtPanelMensaje.setText("Usuario o contra incorrectos");
+        }
+                
                 
     }//GEN-LAST:event_btnLogin1ActionPerformed
 
